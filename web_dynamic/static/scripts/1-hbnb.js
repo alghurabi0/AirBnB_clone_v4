@@ -1,3 +1,4 @@
+/* global $ */
 // Listen for changes on each input checkbox tag (class = "amenity-checkbox"):
 // if the checkbox is checked, you must store the Amenity ID in a variable (dictionary or list)
 // if the checkbox is unchecked, you must remove the Amenity ID from the variable
@@ -7,12 +8,12 @@
 
 $(document).ready(function () {
   const amenityDict = {};
-  $("input[type=checkbox]").click(function () {
-    if ($(this).is(":checked")) {
-      amenityDict[$(this).data("id")] = $(this).data("name");
+  $('input[type=checkbox]').click(function () {
+    if ($(this).is(':checked')) {
+      amenityDict[$(this).data('id')] = $(this).data('name');
     } else {
-      delete amenityDict[$(this).data("id")];
+      delete amenityDict[$(this).data('id')];
     }
-    $(".amenities h4").text(Object.values(amenityDict).join(", "));
+    $('.amenities h4').text(Object.values(amenityDict).join(', '));
   });
 });

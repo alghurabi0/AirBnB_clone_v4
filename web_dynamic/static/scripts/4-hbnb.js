@@ -1,3 +1,4 @@
+/* global $ */
 // Listen for changes on each input checkbox tag (class = "amenity-checkbox"):
 // if the checkbox is checked, you must store the Amenity ID in a variable (dictionary or list)
 // if the checkbox is unchecked, you must remove the Amenity ID from the variable
@@ -14,19 +15,19 @@
 // When the button tag is clicked, a new POST request to places_search should be made with the list of Amenities checked
 
 $(document).ready(function () {
-  $.get("http://0.0.0.0:5001/api/v1/status/", function (data) {
-    if (data.status === "OK") {
-      $("#api_status").addClass("available");
+  $.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
+    if (data.status === 'OK') {
+      $('#api_status').addClass('available');
     } else {
-      $("#api_status").removeClass("available");
+      $('#api_status').removeClass('available');
     }
   });
 
   $.ajax({
-    url: "http://0.0.0.0:5001/api/v1/places_search",
-    type: "POST",
-    contentType: "application/json",
-    data: "{}",
+    url: 'http://0.0.0.0:5001/api/v1/places_search',
+    type: 'POST',
+    contentType: 'application/json',
+    data: '{}',
     success: function (data) {
       for (const place of data) {
         const html = `<article>
@@ -57,29 +58,29 @@ $(document).ready(function () {
             ${place.description}
           </div>
         </article>`;
-        $("section.places").append(html);
+        $('section.places').append(html);
       }
-    },
+    }
   });
 
   const amenityDict = {};
-  $("input[type=checkbox]").click(function () {
-    if ($(this).is(":checked")) {
-      amenityDict[$(this).data("id")] = $(this).data("name");
+  $('input[type=checkbox]').click(function () {
+    if ($(this).is(':checked')) {
+      amenityDict[$(this).data('id')] = $(this).data('name');
     } else {
-      delete amenityDict[$(this).data("id")];
+      delete amenityDict[$(this).data('id')];
     }
-    $(".amenities h4").text(Object.values(amenityDict).join(", "));
+    $('.amenities h4').text(Object.values(amenityDict).join(', '));
   });
 
-  $("button").click(function () {
+  $('button').click(function () {
     $.ajax({
-      url: "http://0.0.0.0:5001/api/v1/places_search",
-      type: "POST",
-      contentType: "application/json",
+      url: 'http://0.0.0.0:5001/api/v1/places_search',
+      type: 'POST',
+      contentType: 'application/json',
       data: JSON.stringify({ amenities: Object.keys(amenityDict) }),
       success: function (data) {
-        $("section.places").empty();
+        $('section.places').empty();
         for (const place of data) {
           const html = `<article>
           <div class="title">
@@ -109,9 +110,9 @@ $(document).ready(function () {
             ${place.description}
           </div>
         </article>`;
-          $("section.places").append(html);
+          $('section.places').append(html);
         }
-      },
+      }
     });
   });
 });
